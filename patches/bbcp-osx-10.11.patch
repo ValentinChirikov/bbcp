@@ -1,0 +1,90 @@
+diff --git a/src/Makefile b/src/Makefile
+index 86607c5..4a46291 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -214,7 +214,7 @@ makeLinuxx86_64:
+ 	LIBS="$(LNXLIBS64)"
+ 
+ Darwin:
+-	@MACOSX_DEPLOYMENT_TARGET=10.5;\
++	@MACOSX_DEPLOYMENT_TARGET=10.11;\
+ 	make $(MKPARMS)  \
+ 	CC=$(MACCC) \
+ 	BB=$(MACcc) \
+diff --git a/src/bbcp_MD5_openssl.C b/src/bbcp_MD5_openssl.C
+index 3b88645..0b4c611 100644
+--- a/src/bbcp_MD5_openssl.C
++++ b/src/bbcp_MD5_openssl.C
+@@ -42,25 +42,25 @@ void bbcp_MD5_openssl::byteReverse(unsigned char *buf, unsigned longs)
+  * Start MD5 accumulation.  Set bit count to 0 and buffer to mysterious
+  * initialization constants.
+  */
+-void bbcp_MD5_openssl::MD5Init(MD5_CTX *ctx) {
+-    MD5_Init(ctx);
++void bbcp_MD5_openssl::MD5Init(CC_MD5_CTX *ctx) {
++    CC_MD5_Init(ctx);
+ }
+ 
+ /*
+  * Update context to reflect the concatenation of another buffer full
+  * of bytes.
+  */
+-void bbcp_MD5_openssl::MD5Update(MD5_CTX *ctx, unsigned char const *buf, unsigned len) {
+-    MD5_Update(ctx, buf, len);
++void bbcp_MD5_openssl::MD5Update(CC_MD5_CTX *ctx, unsigned char const *buf, unsigned len) {
++    CC_MD5_Update(ctx, buf, len);
+ }
+ 
+ /*
+  * Final wrapup - pad to 64-byte boundary with the bit pattern 
+  * 1 0* (64-bit count of bits processed, MSB-first)
+  */
+-void bbcp_MD5_openssl::MD5Final(unsigned char digest[16], MD5_CTX *ctx)
++void bbcp_MD5_openssl::MD5Final(unsigned char digest[16], CC_MD5_CTX *ctx)
+ {    
+-    MD5_Final(digest, ctx);
++    CC_MD5_Final(digest, ctx);
+ }
+ 
+ #ifndef ASM_MD5
+diff --git a/src/bbcp_MD5_openssl.h b/src/bbcp_MD5_openssl.h
+index 20804b5..9e6c25e 100644
+--- a/src/bbcp_MD5_openssl.h
++++ b/src/bbcp_MD5_openssl.h
+@@ -44,7 +44,7 @@ typedef unsigned int uint32;
+ 
+ #include "bbcp_Headers.h"
+ #include "bbcp_ChkSum.h"
+-#include "openssl/md5.h"
++#include "CommonCrypto/CommonDigest.h"
+   
+ class bbcp_MD5_openssl : public bbcp_ChkSum
+ {
+@@ -65,7 +65,7 @@ void  Set_MD5(char *buff, int  blen, char MD5Val[16])
+              }
+ 
+ char *csCurr(char **Text=0)
+-             {MD5_CTX currCTX = MyContext;
++             {CC_MD5_CTX currCTX = MyContext;
+               MD5Final(MyDigest, &currCTX);
+               if (Text) *Text = x2a((char *)MyDigest);
+               return (char *)MyDigest;
+@@ -93,14 +93,14 @@ const char *Type() {return "md5sl";}
+ 
+ private:
+ 
+-MD5_CTX       MyContext;
++CC_MD5_CTX       MyContext;
+ unsigned char MyDigest[16];
+ 
+ void byteReverse(unsigned char *buf, unsigned longs);
+-void MD5Init(MD5_CTX *context);
+-void MD5Update(MD5_CTX *context, unsigned char const *buf,
++void MD5Init(CC_MD5_CTX *context);
++void MD5Update(CC_MD5_CTX *context, unsigned char const *buf,
+                unsigned len);
+-void MD5Final(unsigned char digest[16], MD5_CTX *context);
++void MD5Final(unsigned char digest[16], CC_MD5_CTX *context);
+ void MD5Transform(uint32 buf[4], uint32 const in[16]);
+ };
+ #endif
