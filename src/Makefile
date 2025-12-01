@@ -8,7 +8,7 @@ BINDIR     = ../bin/$(OSVER)
 
 OBJDIR     = ../obj/$(OSVER)
 
-ENVCFLAGS  =    -Dunix -D_BSD -D_ALL_SOURCE
+ENVCFLAGS  =    -Dunix -D_BSD -D_ALL_SOURCE -std=c++14
 
 ENVINCLUDE = -I. -I/usr/local/include -I/usr/include 
 
@@ -197,8 +197,7 @@ FreeBSD:
 Linux:
 	@+make makeLinux`/bin/uname -i` \
 	MD5HEADER=bbcp_MD5_openssl.h \
-	OBJMD5="$(OBJDIR)/bbcp_MD5_openssl.o" \
-	CFLAGS="$(ENVCFLAGS) $(LNXOPT) -std=c++14"
+	OBJMD5="$(OBJDIR)/bbcp_MD5_openssl.o"
 
 makeLinuxi386:
 	@+make $(MKPARMS)  \
