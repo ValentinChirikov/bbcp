@@ -8,7 +8,7 @@ BINDIR     = ../bin/$(OSVER)
 
 OBJDIR     = ../obj/$(OSVER)
 
-ENVCFLAGS  =    -Dunix -D_BSD -D_ALL_SOURCE -std=c++14
+ENVCFLAGS  =    -Dunix -D_BSD -D_ALL_SOURCE
 
 ENVINCLUDE = -I. -I/usr/local/include -I/usr/include 
 
@@ -203,7 +203,7 @@ makeLinuxi386:
 	@+make $(MKPARMS)  \
 	CC=$(LNXCC) \
 	BB=$(LNXcc) \
-	CFLAGS="$(ENVCFLAGS) $(LNXOPT)" \
+	CFLAGS="$(ENVCFLAGS) $(LNXOPT) -std=c++14" \
 	BFLAGS="$(ENVCFLAGS) $(LNXOPT_B)" \
 	INCLUDE="$(ENVINCLUDE)" \
 	LIBS="$(LNXLIBS32)"
@@ -212,7 +212,7 @@ makeLinuxx86_64 makeLinuxaarch64:
 	@+make $(MKPARMS) RR=$(RELNUM) \
 	CC=$(LNXCC) \
 	BB=$(LNXcc) \
-	CFLAGS="$(ENVCFLAGS) $(LNXOPT)" \
+	CFLAGS="$(ENVCFLAGS) $(LNXOPT) -std=c++14" \
 	BFLAGS="$(ENVCFLAGS) $(LNXOPT_B)" \
 	INCLUDE="$(ENVINCLUDE)" \
 	LIBS="$(LNXLIBS64)"
