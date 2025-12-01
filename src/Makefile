@@ -197,7 +197,8 @@ FreeBSD:
 Linux:
 	@+make makeLinux`/bin/uname -i` \
 	MD5HEADER=bbcp_MD5_openssl.h \
-	OBJMD5="$(OBJDIR)/bbcp_MD5_openssl.o"
+	OBJMD5="$(OBJDIR)/bbcp_MD5_openssl.o" \
+	CFLAGS="$(ENVCFLAGS) $(LNXOPT) -std=c++14"
 
 makeLinuxi386:
 	@+make $(MKPARMS)  \
